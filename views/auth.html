@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    backend_host = 'http://0.0.0.0:9292'
+
+    async function make_auth_req () {
+        email = document.getElementById("email").value
+        password = document.getElementById("password").value
+        submit_btn = document.getElementById("submit_btn")
+
+        const request_options = {
+            "method": "POST",
+            "headers": {"Content-Type": "application/json"},
+            "body": JSON.stringify(
+                {
+                    "email": email,
+                    "password": password
+                }
+            )
+        }
+
+        req = new Request(backend_host + '/auth_request/', request_options)
+        const response = await fetch(req)
+
+        status_p = document.getElementById("status_p")
+        if (response.status === 200) {
+            status_p.textContent = "Вы были авторизованы"
+        }
+        else {
+            status_p.textContent = "Неправильная почта или пароль. Доступ запрещен."
+        }
+    }
+</script>
+
+    <div class="container">
+        <label><b>Email</b></label>
+        <input id="email" type="text" placeholder="Enter email" required>
+
+        <label><b>Password</b></label>
+        <input id="password" type="password" placeholder="Enter Password" required>
+
+        <button type="submit" id="submit_btn" onclick="make_auth_req()">Login</button>
+    </div>
+
+<p id="status_p">Default text</p>
+
+
+</body>
+</html>
