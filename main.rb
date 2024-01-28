@@ -5,7 +5,7 @@ require 'warden'
 Warden::Strategies.add(:basic) do
   def valid?
     @params = JSON.parse env['rack.input'].read
-    @params["email"] || @params["password"]
+    @params["email"] && @params["password"]
 
   end
 
